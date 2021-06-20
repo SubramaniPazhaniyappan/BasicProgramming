@@ -1,0 +1,27 @@
+C Bsics:
+------------
+------------
+
+Keywords : 32 reserved keyword in C Language.
+           int, float, char, double, long, 
+           short, unsigned, signed, void,
+           if, else, for, while, do, switch, 
+           case, continue, break, struct, union,
+           auto, const, default, enum, extern,
+           goto, register, return, sizeof, static,
+           typedef, volatile.
+
+Identifiers : Identifier nothing but variable name, function name used by ourself to understand the flow of the logic and program.
+ - Identifier can only have alphanumeric character (Letters & Digits) and underscore ( _ ).
+ - The first character must be an aplphabet or underscore.
+ - We cannot use keyword as Identifier.
+ - Identifiers are case-sensitive.
+ - Only the first 0-31 character are significant. 
+
+Example : int Variable_name. here int - keyword, Variable_name - identifier.
+
+Pointers :
+ - Pointers allow passing of arrays and strings to function more Efficiently.
+ - using pointers able return more than one value from the function.
+ - Save memory, Increase the processing speed and Reduce the length and complexity of a program.
+ 

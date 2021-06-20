@@ -6,6 +6,13 @@ char character;
 double *Double;
 float *Floating;
 
+typedef enum _Enumeration_{ 
+    One, /* Zero */
+    Two, /* One */
+    Three, /* Two */
+    Four /* Three */
+    } Enumeration;
+
 void SizeofDatatype()
 {
     printf("Integer size :%d\n",sizeof(int));
@@ -15,6 +22,7 @@ void SizeofDatatype()
     printf("unsigned short size :%d\n",sizeof(unsigned short));
     printf("size of double :%d\n",sizeof(double));
     printf("size of character :%d\n",sizeof(character));
+
 
     printf("Size of integer pointer :%d\n",sizeof(pointer));
     printf("size of doubled pointer :%d\n",sizeof(Double));
