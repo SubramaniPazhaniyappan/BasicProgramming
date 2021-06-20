@@ -1,0 +1,4 @@
+###    git will not track files mentined in .gitignore file   ###
+#ignore all files inside Reference folder.
+
+Reference/
