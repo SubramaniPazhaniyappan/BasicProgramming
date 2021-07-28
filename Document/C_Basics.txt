@@ -1,9 +1,8 @@
 C Bsics:
 ------------
-------------
 
 Keywords : 32 reserved keyword in C Language.
-           int, float, char, double, long, 
+         - int, float, char, double, long, 
            short, unsigned, signed, void,
            if, else, for, while, do, switch, 
            case, continue, break, struct, union,
@@ -20,8 +19,29 @@ Identifiers : Identifier nothing but variable name, function name used by oursel
 
 Example : int Variable_name. here int - keyword, Variable_name - identifier.
 
+Data Types :  
+ - Primary Data Types (Build-in) : void, int, char, double and float.
+ - Secondary Data Types (Derived) : Array, Reference and Pointers.
+ - User defined Data Type : Structure, Union and Enumeration. 
+
+
 Pointers :
  - Pointers allow passing of arrays and strings to function more Efficiently.
  - using pointers able return more than one value from the function.
  - Save memory, Increase the processing speed and Reduce the length and complexity of a program.
  
+ Reference Operator(&) - Expression &x returns the address of variable x.
+ Deference Operator(*) - Expression *p returns the value of variable to which p points.
+ 
+ Operator Precedence:
+  - *ptr++ or *(ptr++) -> increment the pointer.
+  - (*ptr)++  -> the value pointed by ptr is incremented by 1.
+
+
+  Assertion in C:
+    void assert(int expression);
+  - assertion is triggered if the parameter passed into assert() is zero.
+  - then the expression, sourcecode filename, and line number are sent to the standard error, 
+    and then abort() function is called.
+  - we can completely remove assertions at compile time using the preprocessor NDEBUG.
+    #define NDEBUG
