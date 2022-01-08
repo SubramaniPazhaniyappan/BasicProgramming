@@ -23,7 +23,101 @@ Data Types :
  - Primary Data Types (Build-in) : void, int, char, double and float.
  - Secondary Data Types (Derived) : Array, Reference and Pointers.
  - User defined Data Type : Structure, Union and Enumeration. 
+-------------------------------------------------------------------------------------------------------------
+Storage classes in C :
+----------------------
+     Type    - will declared || area || Initial value || Scope || life
+	 -----------------------------------------------------------------
+ 1. auto     - only local, main memory, garbage value, Block scope, automatic
+ 2. register - only local, CPU register, garbage value, Block scope, automatic
+ 3. static   - loacl & global, main memory, Zero, Block or file scope, until program execution
+ 4. extern   - only global, primary memory, Zero, file scope, until program execution
 
+/************** auto ********************/
+#include<stdio.h>
+int main()
+{
+    auto int a = 10;
+    int b = 20;
+	printf("Value of a = %d\n", a);
+	printf("Value of b = %d", b);
+	return 0;
+}
+
+Output: 
+Value of a = 10
+Value of b = 20
+
+Note : Both  a and b declared as auto variables.
+/****************************************/
+/************ register ******************/
+#include<stdio.h>
+int main()
+{
+	register int i;
+	for(i = 1; i<=10; i++)
+	{
+		printf("%d\n",i);
+		printf("%d", &i); // will not work
+	/* we can't use the pointer with register variable */
+	}
+	return 0;
+}
+
+Note : Required ->>> very frequent and very fast operation.
+/*****************************************/
+/************** Static ******************/
+#include<stdio.h>
+void increment()
+{
+	static int i;
+	printf("%d", i);
+	/* initial value of i is Zero */
+	i++;
+	printf("%d", i);
+}
+int main()
+{
+	function1();
+	function2();
+	function3();
+	return 0;
+}
+
+Output:
+1 2 3 
+
+Note : static variables are created/initialized only once for first time.
+/*****************************************/
+/************** extern ******************/
+// Variable.c 
+extern int i;  // refer i in program1.called
+void show()
+{
+	int j;
+	j = i*2;
+	printf("Value of j = %d\n", j);
+}
+
+//Progrram1.c 
+#include <stdio.h>
+#include "Variable.c" // link program variable.c
+int i; // global declration
+void show();
+int main()
+{
+	i = 10;
+	show();
+	printf("Value of i = %d\n", i);
+	return 0;
+}
+
+Output:
+Value of j = 20
+Value of i = 10
+
+Note : The extern variable must be initialized as global variable
+/*****************************************/
 
 Pointers :
  - Pointers allow passing of arrays and strings to function more Efficiently.
