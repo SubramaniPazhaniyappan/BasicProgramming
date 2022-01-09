@@ -1,0 +1,28 @@
+
+- 	In order to align the data in memory,  
+	one or more empty bytes (addresses) are inserted (or left empty) 
+	between memory addresses which are allocated for other structure members 
+	while memory allocation. This concept is called structure padding
+-	1 word = 4  bytes in 32bit procesor // reads 4bytes at a time
+-	1 word = 8 	bytes in 64bit procesor	// reads 8bytes at a time
+Example:
+struct student1
+{
+   int id1; // 4bytes
+   int id2;	// 4bytes
+   char a;	// 1bytes
+   char b;	// 4bytes
+   float percentage;  // 4bytes
+};
+
+struct student
+{
+   int id1;	// 4bytes
+   char a;	// 4bytes
+   int id2;	// 4bytes
+   char b;	// 4bytes
+   float percentage;  // 4bytes
+};
+
+-	#pragma pack ( 1 ) directive can be used for arranging memory for 
+	structure members very next to the end of other structure members.

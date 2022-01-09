@@ -139,3 +139,6 @@ Pointers :
     and then abort() function is called.
   - we can completely remove assertions at compile time using the preprocessor NDEBUG.
     #define NDEBUG
+	
+	
+/***************************************************************************************************/
