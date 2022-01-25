@@ -1,0 +1,30 @@
+
+I2C - serial synchronized communication protocol[TWO WIRE INTERFACE]
+---------------------------------------------------------------------
+SCL Line : Synchronous clock that always controlled by master.
+SDA Line : data is transferred bit by bit with synchronized clock.
+
+--------------------- MESSAGE ----------------------------
+----------------------------------------------------------
+| Start | ADDR | R/W | ACK/NACK | DATA | ACK/NACK | Stop |
+----------------------------------------------------------
+
+Start - start condition [SCL - High, SDA - High to Low]
+ADDR  - Address Frame [7bit or 10bit address]
+R/W	  - Read(Requesting Data) - 1/Write(Master --data-> slave) - 0.
+ACK/NACK - acknowledge(receiver data sucessfully)/no-acknowledge.
+DATA  - Data(always 8bit long) to be send/receive form master/slave.
+Stop  - Stop condition [SCL - High, SDA - Low to High]
+
+ADVANTAGES:
+-------------
+1. Only uses two wires
+2. Supports multiple masters and multiple slaves
+3. ACK/NACK provide confirmation upon sucessfull transfer.
+4. Hardware is less complicated than SPI & UART.
+
+DISADVANTAGES:
+---------------
+1. Slower data transfer rate than SPI.
+2. The size of data frame is limited to 8 bits.
+3. More complicated hardware needed to implement than SPI.
