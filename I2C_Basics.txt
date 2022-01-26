@@ -4,10 +4,10 @@ I2C - serial synchronized communication protocol[TWO WIRE INTERFACE]
 SCL Line : Synchronous clock that always controlled by master.
 SDA Line : data is transferred bit by bit with synchronized clock.
 
---------------------- MESSAGE ----------------------------
-----------------------------------------------------------
-| Start | ADDR | R/W | ACK/NACK | DATA | ACK/NACK | Stop |
-----------------------------------------------------------
+--------------------- MESSAGE ------------------------------
+  ----------------------------------------------------------
+  | Start | ADDR | R/W | ACK/NACK | DATA | ACK/NACK | Stop |
+  ----------------------------------------------------------
 
 Start - start condition [SCL - High, SDA - High to Low]
 ADDR  - Address Frame [7bit or 10bit address]
@@ -28,3 +28,45 @@ DISADVANTAGES:
 1. Slower data transfer rate than SPI.
 2. The size of data frame is limited to 8 bits.
 3. More complicated hardware needed to implement than SPI.
+-------------------------------------------------------------
+
+Different Operating Modes:
+---------------------------
+1. Byte Mode - Disables automatic address Pointer \
+			   Doesn't increment its internal address counter \
+			   after each Bytye during data transfer.
+2. Sequential Mode - Enables automatic address Pointer.
+					 Increments its address  counter \
+					 after each Byte during data transfer.
+					 
+S 	- Start, SR - Restart, P - Stop, W - Write, R - Read
+OP 	- Device opcode, 	ADDR - Device register address
+Din - Data in to slave, Dout - Data out from slave.
+------------				
+Byte Write:
+------------
+  ---------------------     -------     -----
+  | S | OP | W | ADDR | --->| Din | --->| P |
+  ---------------------     -------     -----	
+------------				
+Byte Read:
+------------
+  --------------     ----------------------     -----
+  | S | OP | W | --->| SR | OP | R | Dout | --->| P |
+  --------------     ----------------------     -----
+-----------------
+Sequential Write:
+-----------------
+  ---------------------     -------     -------     -----
+  | S | OP | W | ADDR | --->| Din |.....| Din | --->| P |
+  ---------------------     -------     -------     -----
+-----------------
+Sequential Write:
+-----------------
+  --------------     ----------------------     --------    -----
+  | S | OP | W | --->| SR | OP | R | Dout |.....| Dout |--->| P |
+  --------------     ----------------------     --------    -----
+  
+Note : In Sequential mode the address pointer automatically \
+	   over to address 00h after accessing the last register.
+------------------------------------------------------------------
