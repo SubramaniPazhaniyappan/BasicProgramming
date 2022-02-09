@@ -10,8 +10,8 @@ SDA Line : data is transferred bit by bit with synchronized clock.
   ----------------------------------------------------------
 
 Start - start condition [SCL - High, SDA - High to Low]
-ADDR  - Address Frame [7bit or 10bit address]
-R/W	  - Read(Requesting Data) - 1/Write(Master --data-> slave) - 0.
+ADDR  - Address Frame [7bit{2^7 = 128 Devices} or 10bit{2^10 = 1024 Devices}]
+R/W   - Read(Requesting Data) - 1/Write(Master --data-> slave) - 0.
 ACK/NACK - acknowledge(receiver data sucessfully)/no-acknowledge.
 DATA  - Data(always 8bit long) to be send/receive form master/slave.
 Stop  - Stop condition [SCL - High, SDA - Low to High]
@@ -70,3 +70,32 @@ Sequential Write:
 Note : In Sequential mode the address pointer automatically \
 	   over to address 00h after accessing the last register.
 ------------------------------------------------------------------
+
+ /**********************************************************/
+     5 Volt
+     |	 |	__________	__________	__________
+     |	 |	|	 |	|	 |	|	 |
+    | | | |	|Device 1|	|Device 2|	|Device 3|
+    | |	| |	|________|	|________|	|________|
+    | | | |	    |  |	    |  |	    |  |
+     |   |   	    |  |	    |  |            |  |
+SCL -|---|----------|--|------------|--|------------|--|-----
+SDA _____|_____________|_______________|_______________|_____
+
+ /***************** I2C Device Connection *******************/
+
+I2C Additional Features:
+-----------------------
+1. It provides bit Arbitration and collision detection.
+2. It provides Clock Stretching.
+3. I2C provides Clock synchronization (Multi Master system).
+------------------------------------------------------------------
+
+I2C Bus Speed:
+--------------
+Standard Mode 	: 100 kbit/s
+Fast Mode     	: 400 kbit/s
+Fast Mode plus	: 1 Mbit/s
+High Speed Mode	: upto 3.4 Mbit/s
+--------------------------------------------------
+
