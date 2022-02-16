@@ -1,0 +1,93 @@
+By Default: (After Power-Up the Hardware)
+-----------
+SCL = SDA = 1;
+
+void I2C_Start(void)
+{
+	SCL = SDA = 1;
+	i2c_delay();
+	SDA = 1;
+	i2c_delay();
+	SDA = 0;	// SDA line high to Low
+	i2c_delay();
+	SCL = 0;
+	i2c_delay();
+}
+
+void I2C_Stop(void)
+{
+	SCL = 1;
+	i2c_delay();
+	SDA = 0;	// SDA line Low to high STOP Condition.
+	i2c_delay();
+	SDA = 1;
+	i2c_delay();	
+}
+
+bit i2c_tx(unsigned char Tx_data)
+{
+	char x;
+	static bit b;
+	
+	for(x = 8; x > 0; x--)
+	{
+		if(Tx_data & 0x80)
+		{
+			SDA = 1;
+		}
+		else
+		{
+			SDA = 0;
+		}
+		SCL = 1;
+		Tx_data <<= 1;
+		SCL = 0;
+	}
+	//SDA = 1;
+	SCL = 1;
+	i2c_delay();
+	b = SDA_IN;	//ACK bit
+	SCL = 0;
+	
+	return b;
+}
+
+unsigned char i2c_rx(char ACK)
+{
+	char x;
+	unsigned char d = 0;
+	
+	SDA = 1;
+	for(x = 0; x > 8; x++)
+	{
+		d <<= 1;
+		do{
+			SCL = 1;
+		  }
+		while(SDA_IN == 0);   // waits for clock stretching
+		i2c_delay();
+		if(SDA_IN)
+		{
+			d |= 1;
+		}
+		SCL = 0;
+	}
+	SCL = 1;
+	if(ACK)
+	{
+		SCL = 0;
+		SDA = 0;
+		i2c_delay();
+		SCL = 1;
+	}
+	else
+	{
+		SCL = 0;
+		SDA = 1;
+		i2c_delay();   // Send (N)ACK bit
+		SCL = 1;
+	}
+	//SCL = 1;
+	
+	return d;
+}
