@@ -9,6 +9,7 @@
 #include "Union.c"
 #include "Function_Prototype.h"
 #include "Recursion.c"
+#include "String_Reverse.c"
 
 int32 X;
 const float PI = 3.14;   // constant variable declaration
@@ -30,11 +31,13 @@ void main()
 
     //Recursion();
 
-    Recursion1();
+    // Recursion1();
+
+    String_Reverse();
 
 /* Assertion in c */
-    printf("\n");
-    assert(a == 7);
+    // printf("\n");
+    // assert(a == 7);
 
 }
 
