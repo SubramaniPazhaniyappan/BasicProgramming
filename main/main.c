@@ -10,6 +10,7 @@
 #include "Function_Prototype.h"
 #include "Recursion.c"
 #include "String_Reverse.c"
+#include "Prime_Numbers.c"
 
 int32 X;
 const float PI = 3.14;   // constant variable declaration
@@ -20,6 +21,7 @@ int max;
 void main()
 {
     int a = 5;
+    int Number;
     printf("hello world\n");
 
 /* Below function print size of data types in  c language */
@@ -33,7 +35,18 @@ void main()
 
     // Recursion1();
 
-    String_Reverse();
+    //String_Reverse();
+
+    printf("Enter the number to check for prime\n");
+    scanf("%d",&Number);
+    if(Prime_Number(Number) == PRIME_NUMBER)
+    {
+        printf("Entered Number is prime number");
+    }
+    else
+    {
+        printf("Not an prime number");
+    }
 
 /* Assertion in c */
     // printf("\n");
