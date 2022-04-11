@@ -11,6 +11,7 @@
 #include "Recursion.c"
 #include "String_Reverse.c"
 #include "Prime_Numbers.c"
+#include "C_Programming_Tricks.c"
 
 int32 X;
 const float PI = 3.14;   // constant variable declaration
@@ -41,13 +42,14 @@ void main()
     scanf("%d",&Number);
     if(Prime_Number(Number) == PRIME_NUMBER)
     {
-        printf("Entered Number is prime number");
+        printf("Entered Number is prime number\n");
     }
     else
     {
-        printf("Not an prime number");
+        printf("Not an prime number\n");
     }
 
+    Swaping();
 /* Assertion in c */
     // printf("\n");
     // assert(a == 7);
