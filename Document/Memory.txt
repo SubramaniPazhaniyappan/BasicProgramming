@@ -1,0 +1,8 @@
+In Embedded System/ DSP System memory is more important part.
+
+Memory Map in C:
+1. Text segment
+2. Initialized data segment
+3. Uninitialized data segment
+4. Stack
+5. Heap
