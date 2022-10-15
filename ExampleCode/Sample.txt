@@ -1,0 +1,182 @@
+#include<stdio.h>
+#include <stdlib.h>
+
+
+typedef struct header_file
+{
+	char chunk_id[4];
+	int chunk_size;
+	char format[4];
+	char subchunk1_id[4];
+	int subchunk1_size;
+	short int audio_format;
+	short int num_channels;
+	int sample_rate;			// sample_rate denotes the sampling rate.
+	int byte_rate;
+	short int block_align;
+	short int bits_per_sample;
+	char subchunk2_id[4];
+	int subchunk2_size;			// subchunk2_size denotes the number of samples.
+} header;
+
+FILE *fr, *fw;
+
+typedef struct header_file* header_p;
+
+
+typedef  float float32_t;
+typedef  int uint32_t;
+
+void filter_trfrm_2(float32_t * pSrc, float32_t * pDst, float32_t *B, float32_t *A, float32_t *pState,uint32_t blockSize);
+
+void filter_dfrm_2(float32_t * pSrc, float32_t * pDst, float32_t *B, float32_t *A, float32_t *pState,int blockSize);
+	
+
+
+
+void filter_drfrm_1(float32_t *input, float32_t *output, float32_t *b, float32_t *a, float32_t *pstate,uint32_t blocksize);
+	
+void filter_drfrm_2_1(float32_t *input, float32_t *output, float32_t *b, float32_t *a, float32_t *pstate,uint32_t blocksize);
+
+void filter_drfrm_3_2(float32_t *input, float32_t *output, float32_t *b, float32_t *a, float32_t *pstate,uint32_t blocksize);
+
+#define N 1
+float pstate[2*N] = { 0 };
+float pstate1[4*N] = { 0 };
+float pstate2[4*N] = { 0 };
+float pstate3[4*N] = { 0 };
+
+#define FRAME 256
+
+int main()
+{
+
+float fs;
+
+float B[9]={0.59388522486495869,-0.6980889218601879,0.2538241565107318};
+float A[9]={0,-0.35221025923717314,0.1935880677833335};
+
+float A1[3]={ 0,0.0018825094327886743,0.484627545161786 };
+float B1[3]={ 0.78813758382278936,0.018825094278867743,0.6964899613338926 };
+
+float A2[3]={ 0,-0.9153782534041436,0.32379323422221734};
+float B2[3]={0.34422757336655946,0.005118362809427796,0.05907354464270238 };
+
+
+
+	//float dv0[6] = { 8, 4,   0, 0,   0, 0 };
+	fr = fopen("D:\\miniproject\\sweeptest.wav", "rb");
+	fw = fopen("D:\\miniproject\\bypass.wav", "wb");
+	
+	
+	header_p meta = (header_p)malloc(sizeof(header));
+	
+	fread(meta, 1, sizeof(header), fr);
+	fwrite(meta, 1, sizeof(header), fw);
+	fs = meta->sample_rate;
+	
+	printf("%f",fs)
+    
+    float fil1_src[FRAME] = { 0 };
+	float src[FRAME] = { 0 };
+	float out1[FRAME] = { 0 };
+	float out2[FRAME] = { 0 };
+	float out3[FRAME] = { 0 };
+	//  float out1[FRAME] = { 0 };
+	/* Initialize function 'GraphicEQ' input arguments. */
+	/* Initialize function input argument 'Gains'. */
+	/* Call the entry-point 'GraphicEQ'. */
+
+	
+	//short  *Inbuf = (short int*)malloc(meta->chunk_size * sizeof(short int));
+	short Inbuf[256] = { 0 };
+	short outbuf[256] = { 0 };
+	short outbuf2[256] = { 0 };
+	
+	int i=0,j=0;
+
+	while (!feof(fr)) {
+
+		fread(Inbuf, sizeof(short int), FRAME, fr);
+
+		for ( i = 0; i < FRAME; i++)
+		{
+			src[i] = (float)(Inbuf[i] / 32767.f);
+		}
+
+		filter_drfrm_1(src, out1, B , A, pstate1, FRAME);
+		filter_drfrm_2_1(out1, out2, B1 ,A1, pstate2, FRAME);
+		filter_drfrm_3_2(out2, out3, B2 ,A2, pstate3, FRAME);
+		
+		for ( i = 0; i < FRAME; i++)      
+		{
+			outbuf[i] =(short)( (out3[i] * 32767.f));
+	    }
+		
+		fwrite(outbuf, sizeof(short int), FRAME, fw);
+			
+	}
+
+	return 0;
+}
+
+
+void filter_drfrm_1(float32_t *input, float32_t *output, float32_t *b, float32_t *a, float32_t *pstate,uint32_t blocksize)
+{
+
+//  beginning 
+	int iter;	
+	for(iter=0;iter<blocksize;iter++)
+	 {
+		output[iter]=input[iter]*b[0]+pstate[0]*b[1]+pstate[1]*b[2]-pstate[2]*a[1]-pstate[3]*a[2];
+		
+		pstate[3]=pstate[2];
+		pstate[2]=output[iter];
+		pstate[1]=pstate[0];
+		pstate[0]=input[iter];
+	 
+	//  printf("a[%d]= %f\n",iter,output[iter]);
+	 }
+
+// end
+}
+
+void filter_drfrm_2_1(float32_t *input, float32_t *output, float32_t *b, float32_t *a, float32_t *pstate,uint32_t blocksize)
+{
+
+//  beginning 
+	int iter;	
+	for(iter=0;iter<blocksize;iter++)
+	 {
+		output[iter]=input[iter]*b[0]+pstate[0]*b[1]+pstate[1]*b[2]-pstate[2]*a[1]-pstate[3]*a[2];
+		
+		pstate[3]=pstate[2];
+		pstate[2]=output[iter];
+		pstate[1]=pstate[0];
+		pstate[0]=input[iter];
+	 
+	//  printf("a[%d]= %f\n",iter,output[iter]);
+	 }
+
+// end
+}
+
+void filter_drfrm_3_2(float32_t *input, float32_t *output, float32_t *b, float32_t *a, float32_t *pstate,uint32_t blocksize)
+{
+
+//  beginning 
+	int iter;	
+	for(iter=0;iter<blocksize;iter++)
+	 {
+		output[iter]=input[iter]*b[0]+pstate[0]*b[1]+pstate[1]*b[2]-pstate[2]*a[1]-pstate[3]*a[2];
+		
+		pstate[3]=pstate[2];
+		pstate[2]=output[iter];
+		pstate[1]=pstate[0];
+		pstate[0]=input[iter];
+	 
+	 printf("a[%d]= %f\n",iter,output[iter]);
+	 }
+
+// end
+}

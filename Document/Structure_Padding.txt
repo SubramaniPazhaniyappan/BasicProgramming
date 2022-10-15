@@ -1,10 +1,19 @@
-
+Structure :
+      User defined data type in C progrmming, grouping data of differnet types together.
+Structure members do not occupy memory space until they are associated with a structure variable.
+-----------------------------------------------------------------------------------
 - 	In order to align the data in memory,  
 	one or more empty bytes (addresses) are inserted (or left empty) 
 	between memory addresses which are allocated for other structure members 
 	while memory allocation. This concept is called structure padding
+
 -	1 word = 4  bytes in 32bit procesor // reads 4bytes at a time
 -	1 word = 8 	bytes in 64bit procesor	// reads 8bytes at a time
+
+Why structure padding:-
+---------------------
+To avoid/reduce the number of cycles to access the structure element value.
+---------------------
 Example:
 struct student
 {
@@ -47,3 +56,18 @@ struct student2
 
 -	#pragma pack ( 1 ) directive can be used for arranging memory for 
 	structure members very next to the end of other structure members.
+
+Note : By default structure padding will happen in compiler based on the processor type (32 or 64 bit processing)
+       #pragma pack(x) method will be used, to avoid structure padding.
+
+Example : 
+#pragme pack(4)
+struct student
+{
+   int id1;
+   char a;
+   int id2;
+   char b;
+   float percentage;
+};
+#pragma pack()
